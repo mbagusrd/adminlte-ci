@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="<?php echo base_url('aset/plugins/overlayScrollbars/css/OverlayScrollbars.min.css'); ?>">
     <link rel="stylesheet" href="<?php echo base_url('aset/plugins/datepicker/css/bootstrap-datepicker.min.css'); ?>">
     <link rel="stylesheet" href="<?php echo base_url('aset/adminlte/css/adminlte.min.css'); ?>">
-    <link rel="stylesheet" href="<?php echo base_url('aset/custom/adminku-lte.css'); ?>">
+    <link rel="stylesheet" href="<?php echo base_url('aset/custom/adminlte-ci.css'); ?>">
     <!-- js -->
     <script type="text/javascript" src="<?php echo base_url('aset/plugins/jquery/jquery.min.js'); ?>"></script>
     <script type="text/javascript" src="<?php echo base_url('aset/plugins/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
@@ -34,7 +34,7 @@
         <script type="text/javascript" src="<?php echo base_url('aset/plugins/sweetalert/sweetalert2.min.js'); ?>"></script>
     <?php } ?>
     <script type="text/javascript" src="<?php echo base_url('aset/adminlte/js/adminlte.min.js'); ?>"></script>
-    <script type="text/javascript" src="<?php echo base_url('aset/custom/adminku-lte.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo base_url('aset/custom/adminlte-ci.js'); ?>"></script>
     <script type="text/javascript" src="<?php echo base_url('aset/plugins/phpjs/number_format.js'); ?>"></script>
     <script type="text/javascript">
         var situs = "<?php echo site_url() ?>";
