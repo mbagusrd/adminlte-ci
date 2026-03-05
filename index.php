@@ -38,6 +38,35 @@
 
 /*
  *---------------------------------------------------------------
+ * LOAD ENVIRONMENT VARIABLES FROM .env FILE
+ *---------------------------------------------------------------
+ *
+ * This will load environment variables from a .env file if it exists.
+ * Variables are loaded using putenv() and are available via getenv().
+ */
+if (file_exists(__DIR__ . '/.env')) {
+    $lines = file(__DIR__ . '/.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+        if (strpos(trim($line), '#') === 0) {
+            continue;
+        }
+        if (strpos($line, '=') !== false) {
+            list($key, $value) = explode('=', $line, 2);
+            $key = trim($key);
+            $value = trim($value);
+            // Remove quotes if present
+            if ((strpos($value, '"') === 0 && strrpos($value, '"') === strlen($value) - 1) ||
+                (strpos($value, "'") === 0 && strrpos($value, "'") === strlen($value) - 1)) {
+                $value = substr($value, 1, -1);
+            }
+            putenv("$key=$value");
+            $_ENV[$key] = $value;
+        }
+    }
+}
+
+/*
+ *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
  *---------------------------------------------------------------
  *
@@ -53,7 +82,7 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+define('ENVIRONMENT', getenv('CI_ENV') ?: 'development');
 
 /*
  *---------------------------------------------------------------
@@ -83,35 +112,6 @@ switch (ENVIRONMENT) {
         header('HTTP/1.1 503 Service Unavailable.', true, 503);
         echo 'The application environment is not set correctly.';
         exit(1); // EXIT_ERROR
-}
-
-/*
- *---------------------------------------------------------------
- * LOAD ENVIRONMENT VARIABLES FROM .env FILE
- *---------------------------------------------------------------
- *
- * This will load environment variables from a .env file if it exists.
- * Variables are loaded using putenv() and are available via getenv().
- */
-if (file_exists(__DIR__ . '/.env')) {
-    $lines = file(__DIR__ . '/.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    foreach ($lines as $line) {
-        if (strpos(trim($line), '#') === 0) {
-            continue;
-        }
-        if (strpos($line, '=') !== false) {
-            list($key, $value) = explode('=', $line, 2);
-            $key = trim($key);
-            $value = trim($value);
-            // Remove quotes if present
-            if ((strpos($value, '"') === 0 && strrpos($value, '"') === strlen($value) - 1) ||
-                (strpos($value, "'") === 0 && strrpos($value, "'") === strlen($value) - 1)) {
-                $value = substr($value, 1, -1);
-            }
-            putenv("$key=$value");
-            $_ENV[$key] = $value;
-        }
-    }
 }
 
 /*
