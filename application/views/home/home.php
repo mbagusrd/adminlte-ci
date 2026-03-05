@@ -11,6 +11,10 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="<?php echo base_url('aset/gambar/favicon.ico'); ?>">
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- css -->
     <?php if ($this->session->userdata("username") != "") { ?>
         <link rel="stylesheet" href="<?php echo base_url('aset/plugins/datatables/datatables.min.css'); ?>">
@@ -45,65 +49,65 @@
     <!-- Site wrapper -->
     <div class="wrapper">
         <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light glass-effect">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button" title="Toggle Menu">
+                        <i class="fas fa-bars"></i>
+                    </a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="javascript:void(0)" class="nav-link">
-                        <?php echo getenv("APP_NAME") ? getenv("APP_NAME") : "ADMINLTE CI"; ?> </a>
+                        <span class="text-gradient font-weight-bold">
+                            <?php echo getenv("APP_NAME") ? getenv("APP_NAME") : "ADMINLTE CI"; ?>
+                        </span>
+                    </a>
                 </li>
             </ul>
             <!-- Right navbar links -->
-            <ul class="navbar-nav ml-auto">
-                <!-- Notifications Dropdown Menu -->
+            <ul class="navbar-nav ml-auto align-items-center">
+                <!-- User Dropdown Menu -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="far fa-user"></i>&nbsp;
-                        <?php
-                        echo ($this->session->userdata("username") == "") ? "Login" : $this->session->userdata("username");
-                        ?>
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" data-toggle="dropdown" href="#">
+                        <div class="user-avatar mr-2">
+                            <i class="far fa-user-circle fa-lg"></i>
+                        </div>
+                        <span class="d-none d-md-inline">
+                            <?php echo ($this->session->userdata("username") == "") ? "Login" : $this->session->userdata("username"); ?>
+                        </span>
                     </a>
-                    <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 dropdown-menu-right">
+                    <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu dropdown-menu-right">
                         <?php if ($this->session->userdata("username") == "") { ?>
                             <li><a href="javascript:void(0)" class="dropdown-item"> Silahkan Login </a></li>
                         <?php } else { ?>
-                            <li>
-                                <a href="javascript:void(0)" class="dropdown-item text-muted text-center h5">
-                                    <?php echo $this->session->userdata("nama"); ?> </a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0)" class="dropdown-item text-muted text-center"> <small>
-                                        <?php echo $this->session->userdata("nm_grup"); ?> </small> </a>
+                            <li class="dropdown-header bg-light rounded-top">
+                                <div class="text-center py-2">
+                                    <div class="mb-2">
+                                        <i class="far fa-user-circle fa-3x text-primary"></i>
+                                    </div>
+                                    <h6 class="mb-1 font-weight-bold">
+                                        <?php echo $this->session->userdata("nama"); ?>
+                                    </h6>
+                                    <small class="text-muted">
+                                        <?php echo $this->session->userdata("nm_grup"); ?>
+                                    </small>
+                                </div>
                             </li>
                             <li class="dropdown-divider"></li>
                             <li>
-                                <a href="<?php echo site_url('login/keluar'); ?>" class="dropdown-item"> <i class="fas fa-sign-out-alt"></i> Log Out </a>
+                                <a href="<?php echo site_url('login/keluar'); ?>" class="dropdown-item text-danger">
+                                    <i class="fas fa-sign-out-alt mr-2"></i> Log Out
+                                </a>
                             </li>
                         <?php } ?>
                     </ul>
                 </li>
-                <!-- <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="far fa-bell"></i> -->
-                <!-- <span class="badge badge-success navbar-badge"><strong>0</strong></span> -->
-                <!-- </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <span class="dropdown-item dropdown-header">0 Notifications</span> -->
-                <!-- <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-envelope mr-2"></i> 4 new messages
-                            <span class="float-right text-muted text-sm">3 mins</span>
-                        </a> -->
-                <!-- </div>
-                </li> -->
             </ul>
         </nav>
         <!-- /.navbar -->
         <!-- Main Sidebar Container -->
-        <aside class="main-sidebar sidebar-dark-primary elevation-2">
+        <aside class="main-sidebar sidebar-dark-primary">
             <!-- Brand Logo -->
             <a href="<?php echo site_url(); ?>" class="brand-link">
                 <img src="<?php echo base_url('aset/gambar/apps-logo.png'); ?>" class="brand-image">
@@ -229,13 +233,17 @@
         </div>
         <!-- /.content-wrapper -->
         <footer class="main-footer">
-            <div class="float-right d-none d-sm-block"> </div>
-            <strong>
-                Copyright &copy; 2024
-                <a href="<?php echo site_url() ?>">
-                    <?php echo getenv("APP_NAME") ? getenv("APP_NAME") : "ADMINLTE CI"; ?>
-                </a>.
-            </strong>
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <span class="text-muted">&copy; 2024</span>
+                    <a href="<?php echo site_url() ?>" class="font-weight-semibold">
+                        <?php echo getenv("APP_NAME") ? getenv("APP_NAME") : "ADMINLTE CI"; ?>
+                    </a>
+                </div>
+                <div class="d-none d-sm-block">
+                    <span class="badge badge-light">v1.0</span>
+                </div>
+            </div>
         </footer>
     </div>
     <!-- ./wrapper -->
