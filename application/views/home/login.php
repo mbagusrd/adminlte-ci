@@ -1,60 +1,58 @@
-<div class="login-container">
-    <div class="row justify-content-center align-items-center min-vh-100">
-        <div class="col-md-5 col-lg-4">
+<div class="">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-lg-6 col-md-8 col-sm-10">
             <div class="login-card-wrapper">
                 <!-- Logo Section -->
                 <div class="text-center mb-4">
                     <div class="login-logo mb-3">
-                        <img src="<?php echo base_url('aset/gambar/apps-logo.png'); ?>" alt="Logo" class="img-fluid" style="max-height: 80px;">
+                        <img src="<?php echo base_url('aset/gambar/apps-logo.png'); ?>" alt="Logo" class="img-fluid" style="max-height: 70px;">
                     </div>
                     <h4 class="login-title">Selamat Datang</h4>
-                    <p class="login-subtitle text-muted">Silakan masuk untuk melanjutkan</p>
+                    <p class="login-subtitle">Silakan masuk untuk melanjutkan</p>
                 </div>
 
                 <!-- Login Card -->
                 <div class="card login-card">
-                    <div class="card-body p-4 p-md-5">
+                    <div class="card-body p-4">
                         <!-- Alert -->
-                        <div class="alert alert-danger alert-dismissible fade" id="form_alert" role="alert" style="display: none;">
+                        <div class="alert alert-danger" id="form_alert" role="alert" style="display: none;">
+                            <i class="fas fa-exclamation-circle mr-2"></i>
                             <span id="form_alert_content"></span>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
                         </div>
 
                         <form id="fm_login" class="login-form">
                             <!-- Username Input -->
-                            <div class="form-group mb-4">
+                            <div class="form-group mb-3">
                                 <label for="username" class="form-label">Username</label>
-                                <div class="input-group input-group-lg">
+                                <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text bg-transparent border-right-0">
+                                        <span class="input-group-text">
                                             <i class="fas fa-user text-muted"></i>
                                         </span>
                                     </div>
-                                    <input type="text" id="username" name="username" class="form-control border-left-0 pl-0" placeholder="Masukkan username" autocomplete="off" autofocus>
+                                    <input type="text" id="username" name="username" class="form-control" placeholder="Masukkan username" autocomplete="off" autofocus>
                                 </div>
                             </div>
 
                             <!-- Password Input -->
-                            <div class="form-group mb-4">
+                            <div class="form-group mb-3">
                                 <label for="password" class="form-label">Password</label>
-                                <div class="input-group input-group-lg">
+                                <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text bg-transparent border-right-0">
+                                        <span class="input-group-text">
                                             <i class="fas fa-lock text-muted"></i>
                                         </span>
                                     </div>
-                                    <input type="password" id="password" name="password" class="form-control border-left-0 pl-0" placeholder="Masukkan password">
+                                    <input type="password" id="password" name="password" class="form-control" placeholder="Masukkan password">
                                     <div class="input-group-append">
-                                        <span class="input-group-text bg-transparent border-left-0 cursor-pointer" id="togglePassword" style="cursor: pointer;">
+                                        <span class="input-group-text" id="togglePassword" style="cursor: pointer;">
                                             <i class="fas fa-eye text-muted"></i>
                                         </span>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Remember Me & Forgot Password -->
+                            <!-- Remember Me -->
                             <div class="d-flex justify-content-between align-items-center mb-4">
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="remember" name="remember">
@@ -63,9 +61,8 @@
                             </div>
 
                             <!-- Login Button -->
-                            <button type="submit" class="btn btn-primary btn-lg btn-block login-btn">
+                            <button type="submit" class="btn btn-primary btn-block login-btn" id="btnLogin">
                                 <span class="btn-text">Masuk</span>
-                                <i class="fas fa-arrow-right ml-2"></i>
                             </button>
                         </form>
                     </div>
@@ -83,163 +80,144 @@
     </div>
 </div>
 
-<!-- Custom Login Styles -->
+<!-- Custom Login Styles - FLAT DESIGN -->
 <style>
 .login-container {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #f1f5f9;
     min-height: 100vh;
-    position: relative;
-    overflow: hidden;
-}
-
-.login-container::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-    background-size: 50px 50px;
-    opacity: 0.5;
-    animation: backgroundMove 20s linear infinite;
-}
-
-@keyframes backgroundMove {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(50px, 50px); }
-}
-
-.login-card-wrapper {
-    position: relative;
-    z-index: 1;
 }
 
 .login-logo img {
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
-    transition: transform 0.3s ease;
+    filter: none;
+    transition: transform 0.2s ease;
 }
 
 .login-logo:hover img {
-    transform: scale(1.05);
+    transform: scale(1.02);
 }
 
 .login-title {
-    font-weight: 700;
-    color: #fff;
-    font-size: 1.75rem;
+    font-weight: 600;
+    color: #1e293b;
+    font-size: 1.5rem;
     margin-bottom: 0.5rem;
 }
 
 .login-subtitle {
-    color: rgba(255,255,255,0.8) !important;
-    font-size: 0.95rem;
+    color: #64748b;
+    font-size: 0.9375rem;
 }
 
 .login-card {
-    background: rgba(255, 255, 255, 0.98);
-    border: none;
-    border-radius: 20px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    backdrop-filter: blur(20px);
-    transform: translateY(0);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.login-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.3);
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .form-label {
-    font-weight: 600;
+    font-weight: 500;
     color: #374151;
     font-size: 0.875rem;
     margin-bottom: 0.5rem;
 }
 
-.input-group-lg .form-control {
-    font-size: 1rem;
-    padding: 0.875rem 1rem;
+/* Input Group Styling */
+.input-group {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s ease;
+}
+
+.input-group:focus-within {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 .input-group-text {
-    border: 2px solid #e5e7eb;
-    border-right: none;
-    background: #fff !important;
-    padding: 0.875rem 1rem;
+    border: none;
+    background: #f8fafc;
+    color: #64748b;
+    padding: 0.75rem 1rem;
+}
+
+.input-group-prepend .input-group-text {
+    border-right: 1px solid #e2e8f0;
+}
+
+.input-group-append .input-group-text {
+    border-left: 1px solid #e2e8f0;
 }
 
 .form-control {
-    border: 2px solid #e5e7eb;
-    border-left: none;
-    border-radius: 0 10px 10px 0 !important;
-    transition: all 0.3s ease;
+    border: none;
+    background: #fff;
+    transition: all 0.2s ease;
+    padding: 0.75rem 1rem;
 }
 
 .form-control:focus {
-    border-color: #4f46e5;
+    border-color: transparent;
     box-shadow: none;
+    background: #fff;
 }
 
-.input-group:focus-within .input-group-text {
-    border-color: #4f46e5;
+/* Remove default input group border from children */
+.input-group > .form-control,
+.input-group > .input-group-prepend > .input-group-text,
+.input-group > .input-group-append > .input-group-text {
+    border-radius: 0;
+}
+
+.input-group > .input-group-prepend:first-child > .input-group-text {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.input-group > .input-group-append:last-child > .input-group-text {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
 .login-btn {
-    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    background: #2563eb;
     border: none;
-    border-radius: 12px;
-    padding: 1rem;
-    font-weight: 600;
-    font-size: 1rem;
-    letter-spacing: 0.025em;
-    box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.4);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
+    border-radius: 10px;
+    padding: 0.75rem;
+    font-weight: 500;
+    font-size: 0.9375rem;
+    transition: all 0.2s ease;
 }
 
 .login-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 15px 30px -5px rgba(79, 70, 229, 0.5);
+    background: #1d4ed8;
 }
 
-.login-btn:active {
-    transform: translateY(0);
-}
-
-.login-btn::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background: rgba(255,255,255,0.2);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: width 0.6s ease, height 0.6s ease;
-}
-
-.login-btn:active::after {
-    width: 300px;
-    height: 300px;
+.login-btn:disabled {
+    background: #93c5fd;
+    cursor: not-allowed;
 }
 
 .custom-control-input:checked ~ .custom-control-label::before {
-    background-color: #4f46e5;
-    border-color: #4f46e5;
+    background-color: #2563eb;
+    border-color: #2563eb;
 }
 
 .alert {
     border-radius: 10px;
     border: none;
+    font-size: 0.875rem;
+}
+
+.alert-danger {
+    background: #fee2e2;
+    color: #991b1b;
 }
 
 @media (max-width: 576px) {
     .login-card {
-        margin: 1rem;
+        margin: 0 1rem;
     }
     
     .login-card .card-body {
@@ -247,24 +225,19 @@
     }
     
     .login-title {
-        font-size: 1.5rem;
+        font-size: 1.375rem;
     }
 }
 
-/* Loading Animation */
-.login-btn.loading {
-    pointer-events: none;
+/* Shake Animation for error */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
 }
 
-.login-btn.loading .btn-text::after {
-    content: '';
-    animation: dots 1.5s infinite;
-}
-
-@keyframes dots {
-    0%, 20% { content: '.'; }
-    40% { content: '..'; }
-    60%, 100% { content: '...'; }
+.shake {
+    animation: shake 0.5s ease-in-out;
 }
 </style>
 
@@ -291,31 +264,34 @@ $(document).ready(function() {
 $('#fm_login').submit(function(e) {
     e.preventDefault();
     
-    const btn = $('.login-btn');
+    const btn = $('#btnLogin');
     const btnText = btn.find('.btn-text');
     const originalText = btnText.text();
     
     // Validation
+    let hasError = false;
+    
     if($('#username').val() == '') {
         $('#username').focus();
         $('#username').addClass('is-invalid');
-        return false;
+        hasError = true;
     } else {
         $('#username').removeClass('is-invalid');
     }
     
     if($('#password').val() == '') {
-        $('#password').focus();
+        if (!hasError) $('#password').focus();
         $('#password').addClass('is-invalid');
-        return false;
+        hasError = true;
     } else {
         $('#password').removeClass('is-invalid');
     }
     
+    if (hasError) return false;
+    
     // Loading state
-    btn.addClass('loading');
-    btnText.text('Memuat');
     btn.prop('disabled', true);
+    btnText.text('Memuat...');
     
     $.ajax({
         url: situs + "login/masuk",
@@ -325,33 +301,31 @@ $('#fm_login').submit(function(e) {
         success: function(data) {
             if (data.status != true) {
                 $('#form_alert_content').html(data.msg);
-                $('#form_alert').show().addClass('show');
-                
-                // Reset button
-                btn.removeClass('loading');
-                btnText.text(originalText);
-                btn.prop('disabled', false);
+                $('#form_alert').show();
                 
                 // Shake animation
-                $('.login-card').addClass('animate__animated animate__shakeX');
+                $('.login-card').addClass('shake');
                 setTimeout(() => {
-                    $('.login-card').removeClass('animate__animated animate__shakeX');
+                    $('.login-card').removeClass('shake');
                 }, 500);
+                
+                // Reset button
+                btn.prop('disabled', false);
+                btnText.text(originalText);
             } else {
                 btnText.text('Berhasil!');
                 setTimeout(() => {
                     location.reload();
-                }, 500);
+                }, 300);
             }
         },
         error: function() {
             $('#form_alert_content').html('Terjadi kesalahan. Silakan coba lagi.');
-            $('#form_alert').show().addClass('show');
+            $('#form_alert').show();
             
             // Reset button
-            btn.removeClass('loading');
-            btnText.text(originalText);
             btn.prop('disabled', false);
+            btnText.text(originalText);
         }
     });
 });
