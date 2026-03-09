@@ -11,6 +11,38 @@
         sans-serif;
 }
 
+/* ===== BUTTON ROUNDED ===== */
+.btn {
+    border-radius: 50px;
+}
+
+.btn-sm {
+    border-radius: 50px;
+}
+
+.btn-lg {
+    border-radius: 50px;
+}
+
+.btn-group > .btn {
+    border-radius: 50px;
+}
+
+.btn-group > .btn:first-child {
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+}
+
+.btn-group > .btn:last-child {
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+}
+
+.input-group > .form-control,
+.input-group > .input-group-append > .btn {
+    border-radius: 50px;
+}
+
 /* ===== PRELOADER ===== */
 .preloader {
     position: fixed;
@@ -173,10 +205,6 @@ ul.nav.nav-sidebar .nav-link:hover i {
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
     background-color: #007bff;
     color: #fff;
-}
-
-.select2-container--default .select2-results__option[aria-selected="true"] {
-    background-color: #e9ecef;
 }
 
 /* ===== CARDS ===== */
