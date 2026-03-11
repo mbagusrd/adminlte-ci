@@ -11,13 +11,14 @@ class Tools extends CI_Controller
 
     public function __construct()
     {
-        parent::__construct();
-
         // Cek apakah dijalankan dari CLI
         if (PHP_SAPI !== 'cli') {
             echo "Akses ditolak. Controller ini hanya dapat dijalankan via CLI.\n";
             exit(1);
         }
+
+        // Jangan panggil parent::__construct() untuk menghindari loading database
+        // yang tidak diperlukan untuk tools CLI ini
     }
 
     /**
