@@ -16,9 +16,6 @@ class Tools extends CI_Controller
             echo "Akses ditolak. Controller ini hanya dapat dijalankan via CLI.\n";
             exit(1);
         }
-
-        // Jangan panggil parent::__construct() untuk menghindari loading database
-        // yang tidak diperlukan untuk tools CLI ini
     }
 
     /**

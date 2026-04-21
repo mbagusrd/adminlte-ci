@@ -36,6 +36,9 @@
  * @filesource
  */
 
+// Path ke root directory (satu level di atas public)
+$root_path = dirname(__DIR__);
+
 /*
  *---------------------------------------------------------------
  * LOAD ENVIRONMENT VARIABLES FROM .env FILE
@@ -44,8 +47,17 @@
  * This will load environment variables from a .env file if it exists.
  * Variables are loaded using putenv() and are available via getenv().
  */
-if (file_exists(__DIR__ . '/.env')) {
-    $lines = file(__DIR__ . '/.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+if (!file_exists($root_path . '/.env')) {
+    header('HTTP/1.1 503 Service Unavailable.', true, 503);
+    echo '<h1>Konfigurasi Tidak Ditemukan</h1>';
+    echo '<p>File <b>.env</b> tidak ditemukan di root direktori aplikasi.</p>';
+    echo '<p>Silakan copy file <b>.env.example</b> menjadi <b>.env</b>:</p>';
+    echo '<code>cp .env.example .env</code>';
+    echo '<p>Kemudian jalankan perintah CLI untuk generate session:</p>';
+    echo '<code>php index.php tools generate_session_name</code>';
+    exit(1);
+} else {
+    $lines = file($root_path . '/.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     foreach ($lines as $line) {
         if (strpos(trim($line), '#') === 0) {
             continue;
@@ -55,14 +67,33 @@ if (file_exists(__DIR__ . '/.env')) {
             $key = trim($key);
             $value = trim($value);
             // Remove quotes if present
-            if ((strpos($value, '"') === 0 && strrpos($value, '"') === strlen($value) - 1) ||
-                (strpos($value, "'") === 0 && strrpos($value, "'") === strlen($value) - 1)) {
+            if (
+                (strpos($value, '"') === 0 && strrpos($value, '"') === strlen($value) - 1) ||
+                (strpos($value, "'") === 0 && strrpos($value, "'") === strlen($value) - 1)
+            ) {
                 $value = substr($value, 1, -1);
             }
             putenv("$key=$value");
             $_ENV[$key] = $value;
         }
     }
+}
+
+/*
+ *---------------------------------------------------------------
+ * VALIDASI KONFIGURASI WAJIB
+ *---------------------------------------------------------------
+ *
+ * Cek apakah file .env ada dan SESSION_NAME sudah diatur
+ * Jika tidak, aplikasi tidak bisa dijalankan
+ */
+if (empty(getenv('SESSION_NAME'))) {
+    header('HTTP/1.1 503 Service Unavailable.', true, 503);
+    echo '<h1>Konfigurasi Tidak Lengkap</h1>';
+    echo '<p>SESSION_NAME belum diatur di file <b>.env</b>.</p>';
+    echo '<p>Silakan jalankan perintah CLI berikut untuk generate session:</p>';
+    echo '<code>php index.php tools generate_session_name</code>';
+    exit(1);
 }
 
 /*
@@ -82,7 +113,7 @@ if (file_exists(__DIR__ . '/.env')) {
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-define('ENVIRONMENT', getenv('CI_ENV') ?: 'development');
+define('ENVIRONMENT', getenv('CI_ENV') ? getenv('CI_ENV') : 'development');
 
 /*
  *---------------------------------------------------------------
@@ -116,34 +147,6 @@ switch (ENVIRONMENT) {
 
 /*
  *---------------------------------------------------------------
- * VALIDASI KONFIGURASI WAJIB
- *---------------------------------------------------------------
- *
- * Cek apakah file .env ada dan SESSION_NAME sudah diatur
- * Jika tidak, aplikasi tidak bisa dijalankan
- */
-if (!file_exists(__DIR__ . '/.env')) {
-    header('HTTP/1.1 503 Service Unavailable.', true, 503);
-    echo '<h1>Konfigurasi Tidak Ditemukan</h1>';
-    echo '<p>File <b>.env</b> tidak ditemukan di root direktori aplikasi.</p>';
-    echo '<p>Silakan copy file <b>.env.example</b> menjadi <b>.env</b>:</p>';
-    echo '<code>cp .env.example .env</code>';
-    echo '<p>Kemudian jalankan perintah CLI untuk generate session:</p>';
-    echo '<code>php index.php tools generate_session_name</code>';
-    exit(1);
-}
-
-if (empty(getenv('SESSION_NAME'))) {
-    header('HTTP/1.1 503 Service Unavailable.', true, 503);
-    echo '<h1>Konfigurasi Tidak Lengkap</h1>';
-    echo '<p>SESSION_NAME belum diatur di file <b>.env</b>.</p>';
-    echo '<p>Silakan jalankan perintah CLI berikut untuk generate session:</p>';
-    echo '<code>php index.php tools generate_session_name</code>';
-    exit(1);
-}
-
-/*
- *---------------------------------------------------------------
  * SYSTEM FOLDER NAME
  *---------------------------------------------------------------
  *
@@ -151,7 +154,7 @@ if (empty(getenv('SESSION_NAME'))) {
  * Include the path if the folder is not in the same directory
  * as this file.
  */
-$system_path = 'system';
+$system_path = $root_path . '/system';
 
 /*
  *---------------------------------------------------------------
@@ -166,7 +169,7 @@ $system_path = 'system';
  *
  * NO TRAILING SLASH!
  */
-$application_folder = 'application';
+$application_folder = $root_path . '/application';
 
 /*
  *---------------------------------------------------------------
@@ -269,7 +272,7 @@ define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
 define('BASEPATH', str_replace('\\', '/', $system_path));
 
 // Path to the front controller (this file)
-define('FCPATH', dirname(__FILE__) . '/');
+define('FCPATH', $root_path . '/');
 
 // Name of the "system folder"
 define('SYSDIR', trim(strrchr(trim(BASEPATH, '/'), '/'), '/'));

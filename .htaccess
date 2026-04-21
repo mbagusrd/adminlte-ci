@@ -1,5 +1,16 @@
-#Deny from all
-#RewriteEngine on
-#RewriteCond %{REQUEST_FILENAME} !-f
-#RewriteCond %{REQUEST_FILENAME} !-d
-#RewriteRule .* index.php/$0 [PT,L]
+### Prevent direct root access while exposing only /public ###
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Ensure /public stays reachable without rewriting again
+  RewriteRule ^public/ - [L]
+
+  # Redirect everything else to /public
+  RewriteCond %{REQUEST_URI} !^/public/
+  RewriteRule ^(.*)$ public/$1 [L,QSA]
+</IfModule>
+
+<IfModule mod_autoindex.c>
+  Options -Indexes
+</IfModule>
