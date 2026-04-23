@@ -54,7 +54,7 @@ if (!file_exists($root_path . '/.env')) {
     echo '<p>Silakan copy file <b>.env.example</b> menjadi <b>.env</b>:</p>';
     echo '<code>cp .env.example .env</code>';
     echo '<p>Kemudian jalankan perintah CLI untuk generate session:</p>';
-    echo '<code>php index.php tools generate_session_name</code>';
+    echo '<code>php index.php mytools generate_session_name</code>';
     exit(1);
 } else {
     $lines = file($root_path . '/.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
@@ -92,7 +92,7 @@ if (empty(getenv('SESSION_NAME'))) {
     echo '<h1>Konfigurasi Tidak Lengkap</h1>';
     echo '<p>SESSION_NAME belum diatur di file <b>.env</b>.</p>';
     echo '<p>Silakan jalankan perintah CLI berikut untuk generate session:</p>';
-    echo '<code>php index.php tools generate_session_name</code>';
+    echo '<code>php index.php mytools generate_session_name</code>';
     exit(1);
 }
 
