@@ -1,8 +1,111 @@
 /**
- * AppCrud - Helper reusable untuk CRUD DataTables & AJAX Form
+ * AppCrud - Helper reusable untuk CRUD DataTables & SweetAlert2
  */
 var AppCrud = (function ($) {
   'use strict';
+
+  var alert = {
+    success: function (message, title) {
+      return Swal.fire({
+        icon: 'success',
+        title: title || 'Berhasil',
+        text: message,
+        timer: 1500,
+        showConfirmButton: false
+      });
+    },
+
+    error: function (message, title) {
+      return Swal.fire({
+        icon: 'error',
+        title: title || 'Error',
+        text: message || 'Terjadi kesalahan sistem.'
+      });
+    },
+
+    confirm: function (options) {
+      var config = $.extend({
+        title: 'Konfirmasi',
+        text: 'Apakah Anda yakin?',
+        icon: 'warning',
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Ya, Lanjutkan!',
+        cancelButtonText: 'Batal'
+      }, options);
+
+      return Swal.fire({
+        title: config.title,
+        text: config.text,
+        icon: config.icon,
+        showCancelButton: true,
+        confirmButtonColor: config.confirmButtonColor,
+        cancelButtonColor: config.cancelButtonColor,
+        confirmButtonText: config.confirmButtonText,
+        cancelButtonText: config.cancelButtonText
+      });
+    }
+  };
+
+  function createDataTable(selector, options) {
+    var defaults = {
+      processing: true,
+      serverSide: true,
+      responsive: true,
+      autoWidth: false,
+      select: {
+        style: 'single'
+      },
+      columnDefs: [
+        { targets: 0, visible: false, searchable: false },
+        { targets: 1, orderable: false, searchable: false, className: 'text-center' }
+      ]
+    };
+
+    var config = $.extend(true, {}, defaults, options);
+    return $(selector).DataTable(config);
+  }
+
+  function createSelect2(selector, options) {
+    var defaults = {
+      theme: 'bootstrap4',
+      width: '100%',
+      placeholder: 'Pilih data',
+      allowClear: true,
+      ajax: {
+        url: '',
+        type: 'GET',
+        dataType: 'json',
+        delay: 250,
+        data: function (params) {
+          return {
+            q: params.term || '',
+            page: params.page || 1
+          };
+        },
+        processResults: function (data, params) {
+          params.page = params.page || 1;
+          var items = data.items || data.data || data;
+          var more = false;
+          if (data.total_count !== undefined) {
+            more = (params.page * 10) < data.total_count;
+          } else if (data.more !== undefined) {
+            more = data.more;
+          }
+          return {
+            results: items,
+            pagination: {
+              more: more
+            }
+          };
+        },
+        cache: true
+      }
+    };
+
+    var config = $.extend(true, {}, defaults, options);
+    return $(selector).select2(config);
+  }
 
   function init(options) {
     var config = $.extend(true, {
@@ -25,26 +128,14 @@ var AppCrud = (function ($) {
 
     var selectedId = null;
 
-    var dtDefaultOptions = {
-      processing: true,
-      serverSide: true,
-      responsive: true,
-      autoWidth: false,
-      select: {
-        style: 'single'
-      },
+    var dtOptions = $.extend(true, {
       ajax: {
         url: config.baseUrl + '/datatables',
         type: 'POST'
-      },
-      columnDefs: [
-        { targets: 0, visible: false, searchable: false },
-        { targets: 1, orderable: false, searchable: false, className: 'text-center' }
-      ]
-    };
+      }
+    }, config.dataTableOptions);
 
-    var dtConfig = $.extend(true, {}, dtDefaultOptions, config.dataTableOptions);
-    var table = $(config.tableSelector).DataTable(dtConfig);
+    var table = createDataTable(config.tableSelector, dtOptions);
 
     function updateActionButtons() {
       var hasSelected = selectedId !== null;
@@ -130,7 +221,7 @@ var AppCrud = (function ($) {
           },
           error: function (xhr) {
             var msg = (xhr.responseJSON && xhr.responseJSON.message) ? xhr.responseJSON.message : 'Gagal mengambil data.';
-            Swal.fire('Error', msg, 'error');
+            alert.error(msg);
           }
         });
       });
@@ -140,15 +231,10 @@ var AppCrud = (function ($) {
       $(config.btnDeleteSelector).on('click', function () {
         if (!selectedId) return;
 
-        Swal.fire({
+        alert.confirm({
           title: 'Hapus ' + config.entityName + '?',
           text: 'Data akan dihapus.',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#d33',
-          cancelButtonColor: '#6c757d',
-          confirmButtonText: 'Ya, Hapus!',
-          cancelButtonText: 'Batal'
+          confirmButtonText: 'Ya, Hapus!'
         }).then(function (result) {
           if (result.isConfirmed) {
             $.ajax({
@@ -160,18 +246,12 @@ var AppCrud = (function ($) {
                   selectedId = null;
                   updateActionButtons();
                   table.ajax.reload(null, false);
-                  Swal.fire({
-                    icon: 'success',
-                    title: 'Terhapus!',
-                    text: res.message,
-                    timer: 1500,
-                    showConfirmButton: false
-                  });
+                  alert.success(res.message, 'Terhapus!');
                 }
               },
               error: function (xhr) {
                 var msg = (xhr.responseJSON && xhr.responseJSON.message) ? xhr.responseJSON.message : 'Gagal menghapus data.';
-                Swal.fire('Error', msg, 'error');
+                alert.error(msg);
               }
             });
           }
@@ -202,13 +282,7 @@ var AppCrud = (function ($) {
               selectedId = null;
               updateActionButtons();
               table.ajax.reload(null, false);
-              Swal.fire({
-                icon: 'success',
-                title: 'Berhasil',
-                text: res.message,
-                timer: 1500,
-                showConfirmButton: false
-              });
+              alert.success(res.message, 'Berhasil');
             }
           },
           error: function (xhr) {
@@ -220,7 +294,7 @@ var AppCrud = (function ($) {
               $input.siblings('.invalid-feedback').text(msg);
             } else {
               var msg = (xhr.responseJSON && xhr.responseJSON.message) ? xhr.responseJSON.message : 'Terjadi kesalahan sistem.';
-              Swal.fire('Error', msg, 'error');
+              alert.error(msg);
             }
           }
         });
@@ -241,6 +315,9 @@ var AppCrud = (function ($) {
   }
 
   return {
-    init: init
+    init: init,
+    createDataTable: createDataTable,
+    createSelect2: createSelect2,
+    alert: alert
   };
 })(jQuery);
