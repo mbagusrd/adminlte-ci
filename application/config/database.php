@@ -70,7 +70,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $db['default'] = array(
 	'dsn'	=> '',
-	'port' => getenv('DB_PORT') ? getenv('DB_PORT') : '3306',
+	'port' => (int) (getenv('DB_PORT') ? getenv('DB_PORT') : 3306),
 	'hostname' => getenv('DB_HOST') ? getenv('DB_HOST') : '127.0.0.1',
 	'username' => getenv('DB_USER') ? getenv('DB_USER') : 'root',
 	'password' => getenv('DB_PASS') ? getenv('DB_PASS') : '',

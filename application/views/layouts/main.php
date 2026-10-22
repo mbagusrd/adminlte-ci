@@ -12,6 +12,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="<?= base_url('assets/plugins/fontawesome-free/css/all.min.css') ?>">
+  <!-- jQuery -->
+  <script src="<?= base_url('assets/plugins/jquery/jquery.min.js') ?>"></script>
+  <!-- Bootstrap 4 -->
+  <script src="<?= base_url('assets/plugins/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
   <!-- overlayScrollbars -->
   <link rel="stylesheet" href="<?= base_url('assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') ?>">
   <!-- Theme style -->
@@ -64,10 +68,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
   </aside>
 </div>
 
-<!-- jQuery -->
-<script src="<?= base_url('assets/plugins/jquery/jquery.min.js') ?>"></script>
-<!-- Bootstrap 4 -->
-<script src="<?= base_url('assets/plugins/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
 <!-- overlayScrollbars -->
 <script src="<?= base_url('assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') ?>"></script>
 <!-- AdminLTE App -->

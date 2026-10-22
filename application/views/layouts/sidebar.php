@@ -36,6 +36,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					</a>
 				</li>
 				<li class="nav-item">
+					<a href="<?= site_url('groups') ?>" class="nav-link <?= ($ci_uri_1 === 'groups') ? 'active' : '' ?>">
+						<i class="nav-icon fas fa-users"></i>
+						<p>Groups</p>
+					</a>
+				</li>
+				<li class="nav-item">
 					<a href="<?= site_url('blank') ?>"
 						class="nav-link <?= ($ci_uri_1 === 'blank' && empty($ci_uri_2)) ? 'active' : '' ?>">
 						<i class="nav-icon far fa-file"></i>
