@@ -12,13 +12,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="<?= base_url('assets/plugins/fontawesome-free/css/all.min.css') ?>">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="<?= base_url('assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') ?>">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?= base_url('assets/adminlte/css/adminlte.min.css') ?>">
   <?php if (isset($extra_css)): ?>
     <?= $extra_css ?>
   <?php endif; ?>
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
 <div class="wrapper">
 
   <!-- Navbar -->
@@ -66,6 +68,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <script src="<?= base_url('assets/plugins/jquery/jquery.min.js') ?>"></script>
 <!-- Bootstrap 4 -->
 <script src="<?= base_url('assets/plugins/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
+<!-- overlayScrollbars -->
+<script src="<?= base_url('assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') ?>"></script>
 <!-- AdminLTE App -->
 <script src="<?= base_url('assets/adminlte/js/adminlte.min.js') ?>"></script>
 <?php if (isset($extra_js)): ?>
