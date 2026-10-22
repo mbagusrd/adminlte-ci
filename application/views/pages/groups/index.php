@@ -2,10 +2,10 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <!-- Datatables & Plugins CSS -->
-<link rel="stylesheet" href="<?= base_url('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') ?>">
-<link rel="stylesheet" href="<?= base_url('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') ?>">
-<link rel="stylesheet" href="<?= base_url('assets/plugins/datatables-select/css/select.bootstrap4.min.css') ?>">
-<link rel="stylesheet" href="<?= base_url('assets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') ?>">
+<link rel="stylesheet" href="<?php echo base_url('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css'); ?>">
+<link rel="stylesheet" href="<?php echo base_url('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css'); ?>">
+<link rel="stylesheet" href="<?php echo base_url('assets/plugins/datatables-select/css/select.bootstrap4.min.css'); ?>">
+<link rel="stylesheet" href="<?php echo base_url('assets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css'); ?>">
 
 <div class="card card-outline card-primary">
   <div class="card-header">
@@ -67,180 +67,26 @@ defined('BASEPATH') or exit('No direct script access allowed');
 </div>
 
 <!-- Datatables & Plugins JS -->
-<script src="<?= base_url('assets/plugins/datatables/jquery.dataTables.min.js') ?>"></script>
-<script src="<?= base_url('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') ?>"></script>
-<script src="<?= base_url('assets/plugins/datatables-responsive/js/dataTables.responsive.min.js') ?>"></script>
-<script src="<?= base_url('assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') ?>"></script>
-<script src="<?= base_url('assets/plugins/datatables-select/js/dataTables.select.min.js') ?>"></script>
-<script src="<?= base_url('assets/plugins/sweetalert2/sweetalert2.min.js') ?>"></script>
+<script src="<?php echo base_url('assets/plugins/datatables/jquery.dataTables.min.js'); ?>"></script>
+<script src="<?php echo base_url('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js'); ?>"></script>
+<script src="<?php echo base_url('assets/plugins/datatables-responsive/js/dataTables.responsive.min.js'); ?>"></script>
+<script src="<?php echo base_url('assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js'); ?>"></script>
+<script src="<?php echo base_url('assets/plugins/datatables-select/js/dataTables.select.min.js'); ?>"></script>
+<script src="<?php echo base_url('assets/plugins/sweetalert2/sweetalert2.min.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/app-crud.js'); ?>"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  var baseUrl = '<?= site_url("groups") ?>';
-  var selectedId = null;
-
-  var table = $('#table-groups').DataTable({
-    processing: true,
-    serverSide: true,
-    responsive: true,
-    autoWidth: false,
-    select: {
-      style: 'single'
-    },
-    ajax: {
-      url: baseUrl + '/datatables',
-      type: 'POST'
-    },
-    columnDefs: [
-      { targets: 0, visible: false, searchable: false },
-      { targets: 1, orderable: false, searchable: false, className: 'text-center' }
-    ],
-    order: [[2, 'asc']]
-  });
-
-  function updateActionButtons() {
-    var hasSelected = selectedId !== null;
-    $('#btn-edit').prop('disabled', !hasSelected);
-    $('#btn-delete').prop('disabled', !hasSelected);
-  }
-
-  table.on('select', function (e, dt, type, indexes) {
-    if (type === 'row') {
-      var rowData = table.rows(indexes).data()[0];
-      selectedId = rowData[0];
-      updateActionButtons();
+  AppCrud.init({
+    baseUrl: '<?php echo site_url("groups"); ?>',
+    entityName: 'Group',
+    tableSelector: '#table-groups',
+    modalSelector: '#modal-form',
+    formSelector: '#form-group',
+    idInputSelector: '#group-id',
+    dataTableOptions: {
+      order: [[2, 'asc']]
     }
-  });
-
-  table.on('deselect', function (e, dt, type, indexes) {
-    if (type === 'row') {
-      selectedId = null;
-      updateActionButtons();
-    }
-  });
-
-  table.on('draw', function () {
-    selectedId = null;
-    updateActionButtons();
-  });
-
-  function resetForm() {
-    $('#form-group')[0].reset();
-    $('#group-id').val('');
-    $('#group-name').removeClass('is-invalid');
-    $('#group-name-error').text('');
-  }
-
-  $('#btn-add').on('click', function () {
-    resetForm();
-    $('#modal-title').text('Tambah Group');
-    $('#modal-form').modal('show');
-  });
-
-  $('#btn-edit').on('click', function () {
-    if (!selectedId) return;
-    resetForm();
-
-    $.ajax({
-      url: baseUrl + '/find/' + selectedId,
-      type: 'GET',
-      dataType: 'json',
-      success: function (res) {
-        if (res.status && res.data) {
-          $('#group-id').val(res.data.id);
-          $('#group-name').val(res.data.name);
-          $('#modal-title').text('Edit Group');
-          $('#modal-form').modal('show');
-        }
-      },
-      error: function (xhr) {
-        var msg = (xhr.responseJSON && xhr.responseJSON.message) ? xhr.responseJSON.message : 'Gagal mengambil data.';
-        Swal.fire('Error', msg, 'error');
-      }
-    });
-  });
-
-  $('#btn-delete').on('click', function () {
-    if (!selectedId) return;
-
-    Swal.fire({
-      title: 'Hapus Group?',
-      text: 'Data akan dihapus secara soft delete.',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#6c757d',
-      confirmButtonText: 'Ya, Hapus!',
-      cancelButtonText: 'Batal'
-    }).then(function (result) {
-      if (result.isConfirmed) {
-        $.ajax({
-          url: baseUrl + '/delete/' + selectedId,
-          type: 'POST',
-          dataType: 'json',
-          success: function (res) {
-            if (res.status) {
-              selectedId = null;
-              updateActionButtons();
-              table.ajax.reload(null, false);
-              Swal.fire({
-                icon: 'success',
-                title: 'Terhapus!',
-                text: res.message,
-                timer: 1500,
-                showConfirmButton: false
-              });
-            }
-          },
-          error: function (xhr) {
-            var msg = (xhr.responseJSON && xhr.responseJSON.message) ? xhr.responseJSON.message : 'Gagal menghapus data.';
-            Swal.fire('Error', msg, 'error');
-          }
-        });
-      }
-    });
-  });
-
-  $('#form-group').on('submit', function (e) {
-    e.preventDefault();
-    $('#group-name').removeClass('is-invalid');
-    $('#group-name-error').text('');
-
-    var $btn = $('#btn-save');
-    $btn.prop('disabled', true).text('Menyimpan...');
-
-    $.ajax({
-      url: baseUrl + '/save',
-      type: 'POST',
-      data: $(this).serialize(),
-      dataType: 'json',
-      success: function (res) {
-        $btn.prop('disabled', false).text('Simpan');
-        if (res.status) {
-          $('#modal-form').modal('hide');
-          selectedId = null;
-          updateActionButtons();
-          table.ajax.reload(null, false);
-          Swal.fire({
-            icon: 'success',
-            title: 'Berhasil',
-            text: res.message,
-            timer: 1500,
-            showConfirmButton: false
-          });
-        }
-      },
-      error: function (xhr) {
-        $btn.prop('disabled', false).text('Simpan');
-        if (xhr.status === 422 && xhr.responseJSON) {
-          $('#group-name').addClass('is-invalid');
-          $('#group-name-error').text(xhr.responseJSON.message);
-        } else {
-          var msg = (xhr.responseJSON && xhr.responseJSON.message) ? xhr.responseJSON.message : 'Terjadi kesalahan sistem.';
-          Swal.fire('Error', msg, 'error');
-        }
-      }
-    });
   });
 });
 </script>
