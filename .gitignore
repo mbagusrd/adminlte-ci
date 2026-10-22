@@ -3,11 +3,15 @@
 
 application/cache/*
 !application/cache/index.html
-!application/cache/.htaccess
 
 application/logs/*
 !application/logs/index.html
-!application/logs/.htaccess
+
+!application/*/.htaccess
+
+composer.lock
+.phpunit.result.cache
+tests/mocks/database/ci_test.sqlite
 
 user_guide_src/build/*
 user_guide_src/cilexer/build/*
@@ -26,4 +30,5 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 *.stTheme.cache
 *.sublime-workspace
 *.sublime-project
-*.mwb.bak
+/tests/tests/
+/tests/results/
