@@ -5,11 +5,32 @@ class Blank extends CI_Controller
 {
     public function index()
     {
+        $this->render('Blank Page', 'Start creating your amazing application!');
+    }
+
+    public function level2_1()
+    {
+        $this->render('Level 2 (1)', 'Ini konten level 2 menu pertama.');
+    }
+
+    public function level3_1()
+    {
+        $this->render('Level 3 (1)', 'Ini konten level 3 sub menu pertama.');
+    }
+
+    public function level3_2()
+    {
+        $this->render('Level 3 (2)', 'Ini konten level 3 sub menu kedua.');
+    }
+
+    // ponytail: helper render controller lokal. upgrade ke Base_Controller jika controller lain butuh.
+    private function render($title, $body)
+    {
         $data = [
-            'title'        => 'Blank Page',
+            'title'        => $title,
             'content_view' => 'pages/blank',
-            'box_title'    => 'Title Box',
-            'box_body'     => 'Start creating your amazing application!',
+            'box_title'    => $title,
+            'box_body'     => $body,
             'box_footer'   => 'Footer Box',
         ];
 
